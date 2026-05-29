@@ -25,7 +25,7 @@ export default function HttpErrorPage({ err }) {
       >
         <div className="text-center bg-white w-full max-w-[900px] rounded-lg space-y-6 p-6 lg:p-12">
           <img
-            src="https://cdn.onecoredevit.com/logos/core-icon.png"
+            src="/core-logo.png"
             className="w-26 max-h-12 m-auto"
             alt=""
           />

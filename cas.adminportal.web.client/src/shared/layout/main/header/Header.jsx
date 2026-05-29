@@ -31,14 +31,6 @@ const Header = () => {
       <Container className="flex justify-between items-center w-full h-full px-[28px]">
         <div className="flex items-center gap-3">
           <HeaderLogo />
-          <div className="hidden lg:flex items-center gap-3">
-             <div className="flex items-center justify-center w-[26px] h-[26px] rounded-full bg-[#E60012] shrink-0">
-               <div className="w-[14px] h-[14px] rounded-full border-2 border-white"></div>
-             </div>
-             <h1 className="text-[#111827] text-[14px] font-semibold uppercase tracking-wide">
-               CORE® AGILE SYSTEM
-             </h1>
-          </div>
         </div>
         <HeaderTopbar />
       </Container>

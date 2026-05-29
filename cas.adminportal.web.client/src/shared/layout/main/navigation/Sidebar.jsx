@@ -36,7 +36,7 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
 
   const navigate = useNavigate();
 
-  const { mobileSidebarOpen, setSidebarMouseLeave, setMobileSidebarOpen } =
+  const { mobileSidebarOpen, sidebarMouseLeave, setSidebarMouseLeave, setMobileSidebarOpen } =
     useMainLayout();
 
   const { layout } = useMainLayout();
@@ -50,23 +50,23 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
     setMobileSidebarOpen(false);
   };
 
-  // const handleMouseEnter = () => {
-  //   setSidebarMouseLeave(false);
-  // };
+  const handleMouseEnter = () => {
+    setSidebarMouseLeave(false);
+  };
 
-  // const handleMouseLeave = () => {
-  //   setSidebarMouseLeave(true);
-  // };
+  const handleMouseLeave = () => {
+    setSidebarMouseLeave(true);
+  };
 
   const renderContent = () => {
     if (defaultThemeLayout === "horizontal") {
       return (
         <div
           ref={selfRef}
-          // onMouseLeave={handleMouseLeave}
-          // onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseEnter={handleMouseEnter}
           className={clsx(
-            "sidebar bg-[#F8F9FB] border-r border-[#E5E7EB] dark:border-e-gray-200 lg:fixed lg:top-0 lg:bottom-0 lg:z-20 lg:flex flex-col items-stretch shrink-0 w-[250px]",
+            "sidebar bg-[#F8F9FB] border-r border-[#E5E7EB] dark:border-e-gray-200 lg:fixed lg:top-0 lg:bottom-0 lg:z-20 lg:flex flex-col items-stretch shrink-0",
             themeClass
           )}
         >
@@ -78,28 +78,34 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
               })}
             />
           </div>
-          <div className="flex flex-center shrink-0 px-[22px] mt-4 mb-2">
+          <div className={clsx("flex shrink-0 mt-4 mb-2", !layout.options.sidebar.collapse ? "px-[22px]" : "px-3 items-center justify-center")}>
             <Button
               onClick={() =>
                 (window.location.href =
                   "https://system.onecoredevit.com/cas/app/dashboard")
               }
-              className="w-full rounded-[3px] bg-[#E60012] text-white font-bold h-[42px] hover:bg-[#c4000f] flex items-center justify-center gap-2"
+              className={clsx(
+                "rounded-[3px] bg-[#E60012] text-white font-bold h-[42px] hover:bg-[#c4000f] flex items-center justify-center gap-2 transition-all",
+                !layout.options.sidebar.collapse ? "w-full" : "w-[42px] px-0"
+              )}
+              title="Back To Main Menu"
             >
-              <ArrowBendUpLeft size={18} weight="bold" />
-              Back To Main Menu
+              <ArrowBendUpLeft size={18} weight="bold" className="shrink-0" />
+              {!layout.options.sidebar.collapse && <span>Back To Main Menu</span>}
             </Button>
           </div>
-          <div className="px-[22px] pb-6 text-center mt-2">
-            <p className="text-[#6B7280] text-[12px] leading-tight">
-              Copyright © 2025. All rights<br/>reserved. ONE COREDEV IT®.<br/>(CORE®)
-            </p>
-          </div>
+          {!layout.options.sidebar.collapse && (
+            <div className="px-[22px] pb-6 text-center mt-2">
+              <p className="text-[#6B7280] text-[12px] leading-tight">
+                Copyright © 2025. All rights<br/>reserved. ONE COREDEV IT®.<br/>(CORE®)
+              </p>
+            </div>
+          )}
         </div>
       );
     }
     return (
-      <div className="fixed top-0 bottom-0 z-20 lg:flex flex-col shrink-0 w-[250px] bg-[#F8F9FB] border-r border-[#E5E7EB] dark:bg-[--tw-page-bg-dark]">
+      <div className="fixed top-0 bottom-0 z-20 lg:flex flex-col shrink-0 bg-[#F8F9FB] border-r border-[#E5E7EB] dark:bg-[--tw-page-bg-dark] sidebar">
         <SidebarHeader ref={headerRef} />
         <SidebarContent
           defaultThemeLayout={defaultThemeLayout}

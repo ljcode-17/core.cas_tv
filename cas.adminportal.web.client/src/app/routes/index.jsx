@@ -17,6 +17,7 @@ import {
   HttpErrorPage,
   
   Dashboard,
+  Presentation,
   // Commented out - _blank feature doesn't exist
 } from "./elements";
 
@@ -54,10 +55,14 @@ export default function Router() {
         },
 
       ],
-    }, // HTTP -- BLOCKED REQUEST PAGE
+    },
+    // ── Standalone public routes (no auth guard, no sidebar) ──
+    {
+      path: "/presentation",
+      element: <Presentation />,
+    },
 
-    // Public Routes
-
+    // HTTP -- BLOCKED REQUEST PAGE
     {
       path: "/error/403",
       element: <HttpErrorPage err="403" />,

@@ -14,6 +14,7 @@ import {
   TableBody,
   TableCell,
 } from "@shared/components/ui/table";
+import { EditVideoModal } from "../components/EditVideoModal";
 
 /** Check if a JWT is expired */
 const isTokenExpired = (token) => {
@@ -185,13 +186,25 @@ export default function Home() {
   const removeFromQueue = (id) => setQueuedVideos(prev => prev.filter(v => v.id !== id));
   const clearQueue = () => setQueuedVideos([]);
 
+  const handleRefresh = async () => {
+    clearQueue();
+    await fetchVideos();
+  };
+
   const handlePlay = () => {
     const playlist = queuedVideos.length > 0
       ? queuedVideos
       : videos.filter(v => v.status === "Active");
     if (playlist.length === 0) return;
-    const ids = playlist.map(v => v.id).join(",");
-    navigate(`/media?queue=${ids}`);
+    
+    // Open the standalone presentation page in a new tab.
+    // import.meta.env.BASE_URL = "/cas/adminportal/" (from vite.config.js)
+    let url = `${import.meta.env.BASE_URL}presentation`;
+    if (queuedVideos.length > 0) {
+      const ids = playlist.map(v => v.id).join(",");
+      url += `?queue=${ids}`;
+    }
+    window.open(url, "_blank");
   };
 
   const activeVideos = videos.filter(v => v.status === "Active");
@@ -261,7 +274,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-3">
               <Button
-                onClick={fetchVideos}
+                onClick={handleRefresh}
                 className="bg-[#2563EB] text-white font-semibold h-[40px] px-[18px] rounded-[3px] flex items-center gap-2 hover:bg-blue-700 transition-colors"
               >
                 <ArrowsClockwise size={18} weight="bold" />
@@ -400,35 +413,20 @@ export default function Home() {
       </Card>
 
       {/* Edit Modal */}
-      {editingVideo && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg border border-[#E5E7EB] shadow-xl max-w-md w-full p-6 relative">
-            <button onClick={() => setEditingVideo(null)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-              <X size={20} />
-            </button>
-            <h3 className="text-[18px] font-bold text-black mb-4">Edit Video Status</h3>
-            <div className="mb-4">
-              <label className="block text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-1">File Name</label>
-              <div className="bg-gray-50 border border-[#E5E7EB] rounded p-2.5 text-[14px] text-gray-700 truncate">{editingVideo.fileName}</div>
-            </div>
-            <div className="mb-6">
-              <label className="block text-[12px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Status</label>
-              <select
-                value={editingVideo.status}
-                onChange={(e) => setEditingVideo({ ...editingVideo, status: e.target.value })}
-                className="w-full border border-[#E5E7EB] rounded p-2.5 text-[14px] text-black focus:border-blue-500 transition-colors bg-white"
-              >
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-              </select>
-            </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setEditingVideo(null)} className="border-[#E5E7EB] hover:bg-gray-100 h-[38px] px-4 rounded-[3px] text-[14px]">Cancel</Button>
-              <Button onClick={() => handleSaveStatus(editingVideo.id, editingVideo.status)} className="bg-[#2563EB] text-white hover:bg-blue-700 h-[38px] px-4 rounded-[3px] text-[14px]">Save</Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <EditVideoModal
+        video={editingVideo}
+        isOpen={!!editingVideo}
+        onClose={() => setEditingVideo(null)}
+        onSave={async (id, newStatus) => {
+          const res = await authFetch(`/api/videos/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus }),
+          });
+          if (!res.ok) throw new Error("Failed to update status");
+          await fetchVideos();
+        }}
+      />
 
       {/* Remove Modal */}
       {deletingVideo && (

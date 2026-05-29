@@ -14,6 +14,7 @@ const Loadable = (Component) => (props) =>
 
 /** General Pages */
 export const Dashboard = Loadable(lazy(() => import("@features/dashboard/pages/Home")));
+export const Presentation = Loadable(lazy(() => import("@features/presentation/pages/Presentation")));
 
 /** Error Pages */
 export const HttpErrorPage = Loadable(
