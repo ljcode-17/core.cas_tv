@@ -56,7 +56,7 @@ const LayoutContext = createContext(initialLayoutProps);
 const useMainLayout = () => useContext(LayoutContext);
 
 const LayoutProvider = ({ children }) => {
-  const { menu, paths } = useAuthContext();
+  const { menu, paths, user } = useAuthContext();
   const { isMenuReady, setIsMenuReady, setMenuConfig } = useMenus();
   const { getLayout, updateLayout, setCurrentLayout } = useLayout();
 
@@ -102,19 +102,21 @@ const LayoutProvider = ({ children }) => {
             item.children = transform(menu.subMenus, false);
           }
 
-          // Filtering logic:
-          // 1. Root items are always kept (unless they have no path and no children).
           if (isRoot) {
             if (!item.path && item.children.length === 0) return null;
             return item;
           }
 
-          // 2. Items with children are kept to preserve hierarchy for authorized sub-modules.
           if (item.children.length > 0) return item;
 
-          // 3. Leaf items (no children) must have an authorized path.
           const basePath = item.path?.split("?")[0];
           if (item.path && mergedPaths.includes(basePath)) {
+            if (item.path === "/purchase-order/management") {
+              const currentUserId = (user?.id || user?.userId || user?.employeeId || user?.referenceId || 0).toString();
+              if (currentUserId !== "16" && currentUserId !== "315") {
+                return null;
+              }
+            }
             return item;
           }
 
@@ -144,9 +146,9 @@ const LayoutProvider = ({ children }) => {
         console.warn("LayoutProvider: menu.leftSideBarMenus is not an array, falling back to empty array", menu.leftSideBarMenus);
       }
 
-      const mergedMenus = [...MENU_SIDEBAR[0].leftSideBarMenus, ...apiLeft];
+      const finalMenus = [...MENU_SIDEBAR[0].leftSideBarMenus, ...apiLeft];
 
-      setMenuConfig("primary", transformMenuData(mergedMenus));
+      setMenuConfig("primary", transformMenuData(finalMenus));
       // setMenuConfig("primary", transformMenuData(MENU_SIDEBAR));
       setIsMenuReady(true);
     } else {

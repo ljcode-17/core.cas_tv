@@ -40,7 +40,9 @@ const SidebarHeader = forwardRef((props, ref) => {
             className="dark:hidden h-[34px]"
             alt="logo"
           />
-          {!layout.options.sidebar.collapse && sidebarHeaderTitle()}
+          {layout.options.sidebar.collapse
+            ? !sidebarMouseLeave && sidebarHeaderTitle()
+            : sidebarHeaderTitle()}
         </Link>
       </>
     );
@@ -55,7 +57,9 @@ const SidebarHeader = forwardRef((props, ref) => {
             alt="logo"
           />
 
-          {!layout.options.sidebar.collapse && sidebarHeaderTitle()}
+          {layout.options.sidebar.collapse
+            ? !sidebarMouseLeave && sidebarHeaderTitle()
+            : sidebarHeaderTitle()}
         </Link>
       </>
     );

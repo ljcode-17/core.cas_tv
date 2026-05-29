@@ -66,7 +66,7 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
           onMouseLeave={handleMouseLeave}
           onMouseEnter={handleMouseEnter}
           className={clsx(
-            "sidebar bg-[#F8F9FB] border-r border-[#E5E7EB] dark:border-e-gray-200 lg:fixed lg:top-0 lg:bottom-0 lg:z-20 lg:flex flex-col items-stretch shrink-0",
+            "sidebar bg-light lg:border-e lg:border-e-gray-200 dark:border-e-gray-200 lg:fixed lg:top-0 lg:bottom-0 lg:z-20 lg:flex flex-col items-stretch shrink-0",
             themeClass
           )}
         >
@@ -78,28 +78,24 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
               })}
             />
           </div>
-          <div className="flex flex-center shrink-0 px-[22px] mt-4 mb-2">
+          <div className="flex flex-center shrink-0 px-4 my-2 ">
             <Button
               onClick={() =>
                 (window.location.href =
                   "https://system.onecoredevit.com/cas/app/dashboard")
               }
-              className="w-full rounded-[3px] bg-[#E60012] text-white font-bold h-[42px] hover:bg-[#c4000f] flex items-center justify-center gap-2"
+              weight="thin"
+              className="w-full rounded-lg [&_svg:not([class*='size-'])]:size-5"
             >
-              <ArrowBendUpLeft size={18} weight="bold" />
+              <ArrowBendUpLeft size={32} weight="bold" />
               Back To Main Menu
             </Button>
-          </div>
-          <div className="px-[22px] pb-6 text-center mt-2">
-            <p className="text-[#6B7280] text-[12px] leading-tight">
-              Copyright © 2025. All rights<br/>reserved. ONE COREDEV IT®.<br/>(CORE®)
-            </p>
           </div>
         </div>
       );
     }
     return (
-      <div className="fixed top-0 bottom-0 z-20 lg:flex flex-col shrink-0 bg-[#F8F9FB] border-r border-[#E5E7EB] dark:bg-[--tw-page-bg-dark] sidebar">
+      <div className="fixed top-0 bottom-0 z-20 lg:flex flex-col shrink-0 w-[--tw-sidebar-width] bg-[--tw-page-bg] dark:bg-[--tw-page-bg-dark]">
         <SidebarHeader ref={headerRef} />
         <SidebarContent
           defaultThemeLayout={defaultThemeLayout}
@@ -125,7 +121,6 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
   }, [viewportHeight, desktopMode]);
 
   useEffect(() => {
-    // Hide drawer on route chnage after menu link click
     if (!desktopMode && prevPathname !== pathname) {
       handleMobileSidebarClose();
     }
