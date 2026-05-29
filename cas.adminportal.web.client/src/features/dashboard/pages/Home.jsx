@@ -430,19 +430,43 @@ export default function Home() {
 
       {/* Remove Modal */}
       {deletingVideo && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg border border-[#E5E7EB] shadow-xl max-w-md w-full p-6 relative">
-            <button onClick={() => setDeletingVideo(null)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-              <X size={20} />
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all duration-300">
+          <div className="bg-white rounded-[20px] shadow-2xl max-w-[420px] w-full p-8 relative transform scale-100 transition-all duration-300">
+            <button 
+              onClick={() => setDeletingVideo(null)} 
+              className="absolute top-5 right-5 text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-full p-2 transition-colors focus:outline-none"
+            >
+              <X size={18} weight="bold" />
             </button>
-            <h3 className="text-[18px] font-bold text-red-600 mb-2">Remove Video</h3>
-            <p className="text-[14px] text-gray-600 mb-6">
-              Are you sure you want to remove <span className="font-semibold text-black">"{deletingVideo.fileName}"</span>?
-              The video will be set to <span className="font-semibold text-orange-600">Inactive</span> and will no longer play.
-            </p>
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setDeletingVideo(null)} className="border-[#E5E7EB] hover:bg-gray-100 h-[38px] px-4 rounded-[3px] text-[14px]">Cancel</Button>
-              <Button onClick={handleDeleteConfirm} className="bg-red-600 text-white hover:bg-red-700 h-[38px] px-4 rounded-[3px] text-[14px]">Remove</Button>
+            
+            <div className="flex flex-col items-center text-center">
+              <div className="w-[68px] h-[68px] bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6 ring-[8px] ring-red-50/50">
+                <Trash size={32} weight="duotone" />
+              </div>
+              
+              <h3 className="text-[22px] font-bold text-gray-900 mb-3 font-serif">Remove Video?</h3>
+              <p className="text-[15px] text-gray-500 mb-8 leading-relaxed px-1">
+                Are you sure you want to remove <br/>
+                <span className="font-semibold text-gray-900">"{deletingVideo.fileName}"</span>?
+                <br/><br/>
+                This will change its status to <span className="font-semibold text-orange-500">Inactive</span>, removing it from your playback queues.
+              </p>
+              
+              <div className="flex w-full gap-3">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setDeletingVideo(null)} 
+                  className="flex-1 border-[#E5E7EB] hover:bg-gray-50 text-gray-700 h-[48px] rounded-[10px] text-[15px] font-semibold transition-all focus:ring-2 focus:ring-gray-200 focus:outline-none"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleDeleteConfirm} 
+                  className="flex-1 bg-red-500 text-white hover:bg-red-600 h-[48px] rounded-[10px] text-[15px] font-semibold shadow-sm hover:shadow transition-all focus:ring-2 focus:ring-red-500 focus:outline-none"
+                >
+                  Yes, Remove
+                </Button>
+              </div>
             </div>
           </div>
         </div>
