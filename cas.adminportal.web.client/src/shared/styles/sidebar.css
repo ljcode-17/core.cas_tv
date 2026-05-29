@@ -2,15 +2,17 @@
 .one_core {
   --tw-sidebar-transition-duration: 0.3s;
   --tw-sidebar-transition-timing: ease;
-  --tw-sidebar-width: 280px;
-  --tw-sidebar-default-width: 280px;
-  --tw-header-height: 70px;
+  --tw-sidebar-width: theme("custom.layouts.one_core.sidebar.width.desktop");
+  --tw-sidebar-default-width: theme(
+    "custom.layouts.one_core.sidebar.width.desktop"
+  );
+  --tw-header-height: theme("custom.layouts.one_core.header.height.desktop");
 }
 
-@media (max-width: 1024px) {
+@media (max-width: theme("screens.lg")) {
   .one_core {
-    --tw-sidebar-width: 280px;
-    --tw-header-height: 60px;
+    --tw-sidebar-width: theme("custom.layouts.one_core.sidebar.width.mobile");
+    --tw-header-height: theme("custom.layouts.one_core.header.height.mobile");
   }
 }
 
@@ -64,7 +66,9 @@
   }
 
   .one_core.sidebar-collapse {
-    --tw-sidebar-width: 80px;
+    --tw-sidebar-width: theme(
+      "custom.layouts.one_core.sidebar.width.desktopCollapse"
+    );
   }
 
   .one_core.sidebar-collapse .sidebar {
@@ -76,24 +80,81 @@
     pointer-events: none;
   }
 
-  /* Force hidden text/UI when collapsed */
-  .one_core.sidebar-collapse .default-logo,
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-link .menu-title,
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-link .menu-arrow,
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-link .menu-badge,
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-label .menu-title,
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-label .menu-arrow,
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-label .menu-badge,
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-accordion {
+  .one_core.sidebar-collapse .sidebar:hover:not(.animating) {
+    width: var(--tw-sidebar-default-width);
+    transition: width var(--tw-sidebar-transition-duration)
+      var(--tw-sidebar-transition-timing);
+  }
+
+  .one_core.sidebar-collapse .sidebar:not(:hover) .default-logo {
     display: none;
   }
 
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-heading {
+  .one_core.sidebar-collapse .sidebar:not(:hover) .small-logo {
+    display: flex;
+  }
+
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-link
+    .menu-title,
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-link
+    .menu-arrow,
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-link
+    .menu-badge,
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-label
+    .menu-title,
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-label
+    .menu-arrow,
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-label
+    .menu-badge {
+    display: none;
+  }
+
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-accordion {
+    display: none;
+  }
+
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-heading {
     visibility: hidden;
     position: relative;
   }
 
-  .one_core.sidebar-collapse .menu > .menu-item > .menu-heading::before {
+  .one_core.sidebar-collapse
+    .sidebar:not(:hover)
+    .menu
+    > .menu-item
+    > .menu-heading::before {
     content: "...";
     color: currentColor;
     font-size: inherit;

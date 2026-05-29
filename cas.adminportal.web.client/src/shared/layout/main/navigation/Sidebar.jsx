@@ -36,7 +36,7 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
 
   const navigate = useNavigate();
 
-  const { mobileSidebarOpen, sidebarMouseLeave, setSidebarMouseLeave, setMobileSidebarOpen } =
+  const { mobileSidebarOpen, setSidebarMouseLeave, setMobileSidebarOpen } =
     useMainLayout();
 
   const { layout } = useMainLayout();
@@ -78,29 +78,23 @@ const Sidebar = ({ defaultThemeLayout = "horizontal" }) => {
               })}
             />
           </div>
-          <div className={clsx("flex shrink-0 mt-4 mb-2", !layout.options.sidebar.collapse ? "px-[22px]" : "px-3 items-center justify-center")}>
+          <div className="flex flex-center shrink-0 px-[22px] mt-4 mb-2">
             <Button
               onClick={() =>
                 (window.location.href =
                   "https://system.onecoredevit.com/cas/app/dashboard")
               }
-              className={clsx(
-                "rounded-[3px] bg-[#E60012] text-white font-bold h-[42px] hover:bg-[#c4000f] flex items-center justify-center gap-2 transition-all",
-                !layout.options.sidebar.collapse ? "w-full" : "w-[42px] px-0"
-              )}
-              title="Back To Main Menu"
+              className="w-full rounded-[3px] bg-[#E60012] text-white font-bold h-[42px] hover:bg-[#c4000f] flex items-center justify-center gap-2"
             >
-              <ArrowBendUpLeft size={18} weight="bold" className="shrink-0" />
-              {!layout.options.sidebar.collapse && <span>Back To Main Menu</span>}
+              <ArrowBendUpLeft size={18} weight="bold" />
+              Back To Main Menu
             </Button>
           </div>
-          {!layout.options.sidebar.collapse && (
-            <div className="px-[22px] pb-6 text-center mt-2">
-              <p className="text-[#6B7280] text-[12px] leading-tight">
-                Copyright © 2025. All rights<br/>reserved. ONE COREDEV IT®.<br/>(CORE®)
-              </p>
-            </div>
-          )}
+          <div className="px-[22px] pb-6 text-center mt-2">
+            <p className="text-[#6B7280] text-[12px] leading-tight">
+              Copyright © 2025. All rights<br/>reserved. ONE COREDEV IT®.<br/>(CORE®)
+            </p>
+          </div>
         </div>
       );
     }
